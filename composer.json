@@ -1,0 +1,19 @@
+{
+    "name": "narihy/php",
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/",
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "NARIHY"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.8",
+        "symfony/var-dumper": "^7.0",
+        "filp/whoops": "^2.15"
+    }
+}

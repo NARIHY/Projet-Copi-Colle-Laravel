@@ -1,0 +1,4 @@
+#ignorer l'env
+.env
+#Ignorer le vendor
+vendor/*
