@@ -5,6 +5,7 @@ namespace Src\Aplication\Router;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Src\Aplication\Container;
+use Src\Aplication\Debug\Debuger;
 
 /**
  * Permet de gérer la route de base.
@@ -48,6 +49,7 @@ class Router
     public function get(string $path, callable|string|array $callback, string $name = "")
     {
         $this->addRoute('get', $path, $callback);
+        Debuger::dump($this->saveRoute('get', $path, $callback, $name));
     }
 
     /**
@@ -141,6 +143,19 @@ class Router
         throw new \Exception('Invalid callback');
     }
 
+    //Todo later
+    public function saveRoute(string $method, string $path, callable|string|array $callback, string $name = ""): array
+    {
+        $arrayRoute = [];
+        $r = [
+            'method' => $method,
+            'path' => $path,
+            'callback' => $callback,
+            'name' => $name
+        ];
+        array_push($arrayRoute,$r);
+        return $arrayRoute;
+    }
     /**
      * Exécute une action de contrôleur.
      *
