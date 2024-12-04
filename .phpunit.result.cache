@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Tests\\DoctrineConnectionTest::testDoctrineConnection":7},"times":{"Tests\\ContainerTest::testContainerCanResolveDoctrineEntityManager":0.057,"Tests\\ContainerTest::testDependencyInjectionWithBasicClasses":0,"Tests\\DoctrineConnectionTest::testDoctrineConnection":0.022}}

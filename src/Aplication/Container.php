@@ -2,8 +2,10 @@
 
 namespace Src\Aplication;
 
+use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMSetup;
 use Exception;
 use ReflectionClass;
 use ReflectionParameter;
@@ -39,20 +41,25 @@ class Container
      */
     public function createDoctrineEntityManager(): EntityManagerInterface
     {
-        // Configure Doctrine ORM
         $isDevMode = true;
-        $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration([__DIR__ . "/../Entity"], $isDevMode);
+        // Chemin vers les entités et configuration
+        $paths = [__DIR__ . "/../app/Model"];
+        $config = ORMSetup::createAttributeMetadataConfiguration($paths, $isDevMode);
 
-        // Connexion à la base de données
-        $connectionOptions = [
-            'driver' => 'pdo_mysql',
-            'user' => 'root',
-            'password' => '',
-            'dbname' => 'your_database_name',
-        ];
+        // configuring the database connection
+        $dbParams = DriverManager::getConnection([
+            'driver'   => $_ENV['DB_DRIVER'],   // Exemple : pdo_mysql
+            'host'     => $_ENV['DB_HOST'],    // Exemple : 127.0.0.1
+            'port'     => $_ENV['DB_PORT'],    // Exemple : 3306
+            'dbname'   => $_ENV['DB_DATABASE'], // Exemple : narihy
+            'user'     => $_ENV['DB_USER'],    // Exemple : root
+            'password' => $_ENV['DB_PASSWORD'] // Exemple : (vide)
+        ], $config);
+        // Création de l'EntityManager
+        $entityManager = new EntityManager($dbParams, $config);
 
-        // Crée une instance de EntityManager
-        return EntityManager::create($connectionOptions, $config);
+        $this->singleton(EntityManagerInterface::class, $entityManager);
+        return  $this->instances[EntityManagerInterface::class];
     }
     /**
      * Enregistrer le gestionnaire d'entité Doctrine dans le conteneur

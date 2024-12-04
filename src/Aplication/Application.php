@@ -2,6 +2,7 @@
 
 namespace Src\Aplication;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Src\Aplication\Environement\EnvironementLoader;
 use Src\Aplication\Http\Request;
 use Src\Aplication\Http\Response;
@@ -58,6 +59,11 @@ class Application
         $this->container->bind(Request::class);
         $this->container->bind(Vue::class);
         $this->container->bind(Response::class);
+
+        
+        // Enregistrer Doctrine dans le conteneur
+        $entityManager = $this->container->createDoctrineEntityManager();
+        $this->container->singleton(EntityManagerInterface::class, $entityManager);
     }
 
     /**

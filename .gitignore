@@ -2,3 +2,5 @@
 .env
 #Ignorer le vendor
 vendor/*
+
+phpunit.xml
